@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">KotlinRepos</string>
+    <string name="username">Username</string>
+    <string name="public_repos">Public repos</string>
+    <string name="gh_page">GitHub page</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
