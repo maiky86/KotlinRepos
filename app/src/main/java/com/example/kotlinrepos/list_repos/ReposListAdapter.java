@@ -1,5 +1,6 @@
 package com.example.kotlinrepos.list_repos;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
+import com.bumptech.glide.Glide;
 import com.example.kotlinrepos.R;
 import com.example.kotlinrepos.model.GHRepo;
 
@@ -20,6 +22,7 @@ public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHold
 
     private ArrayList<GHRepo> repositories = new ArrayList<>();
     private RepoClickedListener listener;
+    private Context fragmentcontext;
 
     private PositionClickedListener positionListener = new PositionClickedListener() {
         @Override
@@ -29,8 +32,9 @@ public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHold
         }
     };
 
-    public ReposListAdapter(RepoClickedListener listener) {
+    public ReposListAdapter(RepoClickedListener listener, Context context) {
         this.listener = listener;
+        this.fragmentcontext = context;
     }
 
     @NonNull
@@ -45,7 +49,7 @@ public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHold
     public void onBindViewHolder(@NonNull ReposListViewHolder holder, int position) {
 
         GHRepo repo = repositories.get(position);
-        holder.bind(repo);
+        holder.bind(repo, fragmentcontext);
     }
 
     @Override
@@ -86,9 +90,13 @@ public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHold
             this.listener = listener;
         }
 
-        public void bind(GHRepo repo) {
+        public void bind(GHRepo repo, Context context) {
 
             // Image will be set with Glide
+            Glide.with(context)
+                    .load(repo.getOwner().getAvatar())
+                    .circleCrop()
+                    .into(avatar);
 
             repoName.setText(repo.getName());
             repoDesc.setText(repo.getDescription());

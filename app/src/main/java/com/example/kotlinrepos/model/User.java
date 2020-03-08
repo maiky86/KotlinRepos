@@ -7,6 +7,8 @@ public class User {
 
     private String login;
     private Integer id;
+    @SerializedName("avatar_url")
+    private String avatar;
     private String name;
     @SerializedName("public_repos")
     private Integer publicRepos;
@@ -53,5 +55,13 @@ public class User {
 
     public void setHtml_url(String html_url) {
         this.html_url = html_url;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

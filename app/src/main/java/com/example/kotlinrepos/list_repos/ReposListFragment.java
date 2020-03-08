@@ -36,7 +36,7 @@ public class ReposListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_repos_list, container, false);
 
-        ReposListAdapter adapter = new ReposListAdapter((KotlinReposActivity) getActivity());
+        ReposListAdapter adapter = new ReposListAdapter((KotlinReposActivity) getActivity(), getContext());
 
         recyclerView = v.findViewById(R.id.reposList);
         recyclerView.setAdapter(adapter);

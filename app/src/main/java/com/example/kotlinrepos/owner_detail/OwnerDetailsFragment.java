@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.kotlinrepos.R;
 import com.example.kotlinrepos.model.User;
 import com.example.kotlinrepos.repository.FakeRepository;
+
+import java.util.Objects;
 
 public class OwnerDetailsFragment extends Fragment {
 
@@ -84,6 +87,11 @@ public class OwnerDetailsFragment extends Fragment {
     }
 
     private void bindUserToView(User user) {
+
+        Glide.with(Objects.requireNonNull(getContext()))
+                .load(user.getAvatar())
+                .circleCrop()
+                .into(avatar);
 
         name.setText(user.getName());
 
