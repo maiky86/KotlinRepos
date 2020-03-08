@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kotlinrepos.KotlinReposActivity;
+import com.example.kotlinrepos.MainViewModel;
 import com.example.kotlinrepos.R;
 import com.example.kotlinrepos.model.GHRepo;
 import com.example.kotlinrepos.repository.FakeRepository;
@@ -20,6 +22,8 @@ public class ReposListFragment extends Fragment {
     public static final String TAG = "ReposListFragment";
 
     private RecyclerView recyclerView;
+
+    private MainViewModel viewModel;
 
     public ReposListFragment() {
         // Required empty public constructor
