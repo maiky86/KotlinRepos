@@ -126,4 +126,14 @@ public class GHRepo {
 
         return id == repo.id;
     }
+
+    public String numberToText(int value) {
+
+        if (value < 1000) {
+            return String.valueOf(value);
+        } else {
+            float aux = value / 1000F;
+            return aux + "k";
+        }
+    }
 }

@@ -1,103 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:padding="8dp"
-    app:ignore="NamespaceTypo"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true">
+    app:ignore="NamespaceTypo">
 
-    <LinearLayout
+    <data>
+        <variable
+            name="itemRepo"
+            type="com.example.kotlinrepos.model.GHRepo" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical">
+        android:padding="8dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="8dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:src="@mipmap/ic_launcher_round" />
-
-            <TextView
-                android:id="@+id/repoName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingBottom="8dp"
-                android:text="repo"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/ic_launcher_round" />
+
+                <TextView
+                    android:id="@+id/repoName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="8dp"
+                    android:text="@{itemRepo.name}"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/repoDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{itemRepo.description}" />
+
+            <TextView
+                android:id="@+id/repoOwnerLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="end"
+                android:paddingTop="8dp"
+                android:text='@{"@" + itemRepo.owner.login}'
+                android:textColor="@color/colorPrimary"
+                android:textStyle="italic" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/repoStars"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_star_black"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{itemRepo.numberToText(itemRepo.stars)}"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/repoForks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_fork"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{itemRepo.numberToText(itemRepo.forks)}"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toStartOf="@+id/repoWatchers"
+                    card_view:layout_constraintStart_toEndOf="@+id/repoStars" />
+
+                <TextView
+                    android:id="@+id/repoWatchers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_eye"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@{itemRepo.numberToText(itemRepo.watchers)}"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/repoDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="description" />
-
-        <TextView
-            android:id="@+id/repoOwnerLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="right"
-            android:paddingTop="8dp"
-            android:text="Name"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="italic" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/repoStars"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_star_black"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:text="TextView"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/repoForks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_fork"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:text="TextView"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toStartOf="@+id/repoWatchers"
-                card_view:layout_constraintStart_toEndOf="@+id/repoStars" />
-
-            <TextView
-                android:id="@+id/repoWatchers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_eye"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:text="TextView"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>
