@@ -10,8 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.kotlinrepos.MainViewModel;
+import com.example.kotlinrepos.MainViewModelFactory;
 import com.example.kotlinrepos.R;
 import com.example.kotlinrepos.model.User;
 import com.example.kotlinrepos.repository.FakeRepository;
@@ -23,6 +27,8 @@ public class OwnerDetailsFragment extends Fragment {
     public static final String TAG = "OwnerDetailsFragment";
 
     private static final String LOGIN = "login";
+
+    private MainViewModel viewModel;
 
     private ImageView avatar;
     private TextView name;
@@ -60,28 +66,25 @@ public class OwnerDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_owner_details, container, false);
 
+
+        MainViewModelFactory factory = new MainViewModelFactory(requireActivity());
+        viewModel = new ViewModelProvider(requireActivity(),factory).get(MainViewModel.class);
+
         avatar = v.findViewById(R.id.ownerAvatar);
         name = v.findViewById(R.id.ownerName);
         userName = v.findViewById(R.id.userName);
         publicRepos = v.findViewById(R.id.numberOfRepos);
         url = v.findViewById(R.id.ghPage);
 
-        url.setOnClickListener(new View.OnClickListener() {
+        url.setOnClickListener(view -> {
 
-            @Override
-            public void onClick(View view) {
+            Uri uriUrl = Uri.parse(url.getText().toString());
 
-                Uri uriUrl = Uri.parse(url.getText().toString());
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(Intent.ACTION_VIEW, uriUrl);
+            startActivity(intent);
         });
 
-
-        FakeRepository fakeRepository = new FakeRepository();
-        User user = fakeRepository.getUser(userLogin);
-        bindUserToView(user);
+        viewModel.getSelected().observe(getViewLifecycleOwner(), user -> bindUserToView(user));
 
         return v;
     }

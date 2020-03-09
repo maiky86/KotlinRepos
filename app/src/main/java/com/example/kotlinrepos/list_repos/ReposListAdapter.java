@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.bumptech.glide.Glide;
+import com.example.kotlinrepos.MainViewModel;
 import com.example.kotlinrepos.R;
 import com.example.kotlinrepos.model.GHRepo;
 
@@ -21,20 +22,18 @@ import java.util.List;
 public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHolder>{
 
     private ArrayList<GHRepo> repositories = new ArrayList<>();
-    private RepoClickedListener listener;
-    private Context fragmentcontext;
+    private Context fragmentContext;
+    private MainViewModel viewModel;
 
-    private PositionClickedListener positionListener = new PositionClickedListener() {
-        @Override
-        public void itemClicked(int position) {
+    private PositionClickedListener positionListener;
+
+    public ReposListAdapter(MainViewModel mainViewModel, Context context) {
+        this.viewModel = mainViewModel;
+        this.fragmentContext = context;
+        this.positionListener = position -> {
             GHRepo repo = repositories.get(position);
-            listener.repoClicked(repo.getOwner().getLogin());
-        }
-    };
-
-    public ReposListAdapter(RepoClickedListener listener, Context context) {
-        this.listener = listener;
-        this.fragmentcontext = context;
+            viewModel.repoSelected(repo);
+        };
     }
 
     @NonNull
@@ -49,7 +48,7 @@ public class ReposListAdapter extends Adapter<ReposListAdapter.ReposListViewHold
     public void onBindViewHolder(@NonNull ReposListViewHolder holder, int position) {
 
         GHRepo repo = repositories.get(position);
-        holder.bind(repo, fragmentcontext);
+        holder.bind(repo, fragmentContext);
     }
 
     @Override
