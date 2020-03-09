@@ -4,12 +4,13 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.kotlinrepos.model.GHRepo;
 import com.example.kotlinrepos.model.User;
-import com.example.kotlinrepos.repository.FakeRepository;
 import com.example.kotlinrepos.repository.GitHubRepository;
+import com.example.kotlinrepos.repository.MainRepository;
 
 import java.util.List;
 
@@ -17,30 +18,26 @@ public class MainViewModel extends ViewModel {
 
     private GitHubRepository repository;
 
-    private MutableLiveData<List<GHRepo>> _repositories = new MutableLiveData<>();
-
-    private MutableLiveData<User> _repoOwner = new MutableLiveData<>();
+    private MutableLiveData<GHRepo> _repoOwner = new MutableLiveData<GHRepo>();
+    private LiveData<User> repoOwner = Transformations.switchMap(_repoOwner, input -> repository.getUser(input.getOwner().getLogin()));
 
     public MainViewModel(Context context) {
-        repository = new FakeRepository();
+        repository = new MainRepository();
     }
 
     public LiveData<List<GHRepo>> getRepos() {
 
-        _repositories.setValue(repository.getGHRepos());
-
-        return _repositories;
+        return repository.getGHRepos();
     }
 
     public LiveData<User> getSelected() {
 
-        return _repoOwner;
+        return repoOwner;
     }
 
     public void repoSelected(GHRepo repo){
 
-        User user = repository.getUser(repo.getOwner().getLogin());
-        _repoOwner.postValue(user);
+        _repoOwner.setValue(repo);
     }
 
 

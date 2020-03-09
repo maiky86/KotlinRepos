@@ -1,6 +1,7 @@
 package com.example.kotlinrepos.api;
 
 import com.example.kotlinrepos.model.GHRepo;
+import com.example.kotlinrepos.model.SearchResponse;
 import com.example.kotlinrepos.model.User;
 import com.example.kotlinrepos.repository.GitHubRepository;
 
@@ -12,7 +13,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GitHubService implements GitHubRepository {
+public class GitHubService implements GitHubApi{
 
     private static GitHubService instance;
 
@@ -39,44 +40,22 @@ public class GitHubService implements GitHubRepository {
         return instance;
     }
 
-    @Override
-    public List<GHRepo> getGHRepos() {
-
-        gitHubApi.getKotlinRepos(kotlinReposQuery).enqueue(new Callback<List<GHRepo>>() {
-            @Override
-            public void onResponse(Call<List<GHRepo>> call, Response<List<GHRepo>> response) {
-                if (response.isSuccessful()) {
-
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<GHRepo>> call, Throwable t) {
-
-            }
-        });
-
-        return null;
+    public Call<SearchResponse> kotlinRepos() {
+        return getKotlinRepos(kotlinReposQuery);
     }
 
     @Override
-    public User getUser(String login) {
+    public Call<SearchResponse> getKotlinRepos(String mainQuery) {
+        return gitHubApi.getKotlinRepos(mainQuery);
+    }
 
-        gitHubApi.getUser(login).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
+    @Override
+    public Call<User> getOrganization(String orgainzation) {
+        return gitHubApi.getOrganization(orgainzation);
+    }
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-        });
-
-        return null;
+    @Override
+    public Call<User> getUser(String user) {
+        return gitHubApi.getUser(user);
     }
 }

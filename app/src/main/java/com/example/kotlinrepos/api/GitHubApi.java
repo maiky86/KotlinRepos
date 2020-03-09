@@ -1,6 +1,7 @@
 package com.example.kotlinrepos.api;
 
 import com.example.kotlinrepos.model.GHRepo;
+import com.example.kotlinrepos.model.SearchResponse;
 import com.example.kotlinrepos.model.User;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import retrofit2.http.Query;
 public interface GitHubApi {
 
     @GET("/search/repositories")
-    Call<List<GHRepo>> getKotlinRepos(
+    Call<SearchResponse> getKotlinRepos(
             @Query("q") String mainQuery);
 
     @GET("/orgs/{organization}")

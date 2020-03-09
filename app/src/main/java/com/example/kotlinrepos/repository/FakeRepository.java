@@ -1,5 +1,8 @@
 package com.example.kotlinrepos.repository;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.kotlinrepos.model.GHRepo;
 import com.example.kotlinrepos.model.User;
 import com.google.gson.Gson;
@@ -20,17 +23,24 @@ public class FakeRepository implements GitHubRepository {
     private static String user = "{\"login\":\"android\",\"id\":32689599,\"node_id\":\"MDEyOk9yZ2FuaXphdGlvbjMyNjg5NTk5\",\"url\":\"https://api.github.com/orgs/android\",\"repos_url\":\"https://api.github.com/orgs/android/repos\",\"events_url\":\"https://api.github.com/orgs/android/events\",\"hooks_url\":\"https://api.github.com/orgs/android/hooks\",\"issues_url\":\"https://api.github.com/orgs/android/issues\",\"members_url\":\"https://api.github.com/orgs/android/members{/member}\",\"public_members_url\":\"https://api.github.com/orgs/android/public_members{/member}\",\"avatar_url\":\"https://avatars3.githubusercontent.com/u/32689599?v=4\",\"description\":\"\",\"name\":\"Android\",\"company\":null,\"blog\":\"https://d.android.com\",\"location\":null,\"email\":null,\"is_verified\":false,\"has_organization_projects\":true,\"has_repository_projects\":true,\"public_repos\":45,\"public_gists\":0,\"followers\":0,\"following\":0,\"html_url\":\"https://github.com/android\",\"created_at\":\"2017-10-10T23:00:21Z\",\"updated_at\":\"2020-01-17T14:07:58Z\",\"type\":\"Organization\"}";
 
     @Override
-    public List<GHRepo> getGHRepos() {
+    public LiveData<List<GHRepo>> getGHRepos() {
 
         Type listType = new TypeToken<ArrayList<GHRepo>>(){}.getType();
         List<GHRepo> repos = new Gson().fromJson(listRepos, listType);
-        return repos;
+
+        MutableLiveData<List<GHRepo>> liveRepos = new MutableLiveData<List<GHRepo>>();
+        liveRepos.setValue(repos);
+
+        return liveRepos;
     }
 
     @Override
-    public User getUser(String login) {
+    public LiveData<User> getUser(String login) {
 
         User repoUser = new Gson().fromJson(user, User.class);
-        return repoUser;
+
+        MutableLiveData<User> liveUser = new MutableLiveData<User>();
+        liveUser.setValue(repoUser);
+        return liveUser;
     }
 }

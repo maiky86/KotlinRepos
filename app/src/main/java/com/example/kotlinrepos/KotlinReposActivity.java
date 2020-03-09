@@ -24,7 +24,9 @@ public class KotlinReposActivity extends AppCompatActivity{
         MainViewModelFactory factory = new MainViewModelFactory(this);
         viewModel = new ViewModelProvider(this,factory).get(MainViewModel.class);
 
-        viewModel.getSelected().observe(this, user -> loadOwnerDetail(user.getLogin()));
+        viewModel.getSelected().observe(this, user -> {
+                loadOwnerDetail(user.getLogin());
+        });
 
         loadListFragment();
     }
@@ -33,7 +35,6 @@ public class KotlinReposActivity extends AppCompatActivity{
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentHolder, ReposListFragment.newInstance())
-                .addToBackStack(null)
                 .commit();
     }
 
